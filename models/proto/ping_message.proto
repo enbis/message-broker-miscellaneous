@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package models;
+
+message PingMessage {
+  string topic = 1;
+  bytes payload = 2;
+}
+
+message Empty {
+  
+}
+
+service Redirect {
+  rpc Send(PingMessage) returns (Empty) {}
+}
