@@ -31,7 +31,7 @@ import (
 var grpcserverCmd = &cobra.Command{
 	Use:   "grpcserver",
 	Short: "Launch gRPC Server",
-	Long:  `Launch gRPC Server listening for gRPC Client request`,
+	Long:  `Launch gRPC Server listening for gRPC Client request, and foreward it as pub/sub on nats`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		log.Printf("grpcServer on")
