@@ -7,9 +7,7 @@ message PingMessage {
   bytes payload = 2;
 }
 
-message Empty {
-  
-}
+message Empty {}
 
 service Redirect {
   rpc Send(PingMessage) returns (Empty) {}
