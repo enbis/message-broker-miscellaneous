@@ -1,6 +1,6 @@
 nats_url: nats://localhost:4222
-
 grpc_port: 7777
+http_port: 3300
 
 topic: foo
 payload: Hello message broker miscellaneous

@@ -9,6 +9,7 @@ import (
 func InitConfig() error {
 	viper.SetDefault("nats_url", "nats://localhost:4222")
 	viper.SetDefault("grpc_port", 7777)
+	viper.SetDefault("http_port", 3300)
 	viper.SetDefault("topic", "topic")
 	viper.SetDefault("payload", "payload")
 
