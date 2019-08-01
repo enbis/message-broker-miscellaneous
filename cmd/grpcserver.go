@@ -42,6 +42,8 @@ var grpcserverCmd = &cobra.Command{
 			log.Fatalf("failed to listen: %v", err)
 		}
 
+		nats := api.NewNatsTransport()
+
 		s := api.RedirectServer{}
 
 		grpcServer := grpc.NewServer()

@@ -1,8 +1,10 @@
 # message-broker-miscellaneous
 
+Like a wireless phone game, this tool connects different application protocols (HTTP request, HTTP/2 protocol buffer) and open source messaging systems (NATS MQTT). From HTTP request to the MQTT message pubblication. It's also possible to run Client/Server system standalone to test and evaluate the communications individually. Fully developed in GO.   
+
 ### Generate protobuf
 
-- `make generate/go`
+- `make generate/go` 
 
 ## Cobra commands
 
