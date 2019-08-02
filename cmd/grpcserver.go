@@ -44,7 +44,7 @@ var grpcserverCmd = &cobra.Command{
 
 		nats := api.NewNatsTransport()
 
-		s := api.RedirectServer{}
+		s := api.RedirectServer{NatsHandler: nats}
 
 		grpcServer := grpc.NewServer()
 

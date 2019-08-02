@@ -9,6 +9,7 @@ import (
 )
 
 var subscriptions = make(map[string]chan *nats.Msg)
+var currentTransport *NatsTransport
 
 type NatsTransport struct {
 	URL  string
@@ -18,10 +19,16 @@ type NatsTransport struct {
 func NewNatsTransport() *NatsTransport {
 	transport := new(NatsTransport)
 	transport.URL = viper.GetString("nats_url")
+	currentTransport = transport
 	return transport
 }
 
+func GetCurrentTransport() *NatsTransport {
+	return currentTransport
+}
+
 func (transport *NatsTransport) Connect() error {
+	log.Println("Conn", &transport.Conn)
 	nc, err := nats.Connect(transport.URL)
 	if err != nil {
 		return err
@@ -77,6 +84,7 @@ func (transport *NatsTransport) Unsubscribe(subj string) error {
 
 func (transport *NatsTransport) Publish(subj string, data []byte) error {
 	if transport.Conn == nil || transport.Conn.IsClosed() {
+		log.Printf("Not connected")
 		return errors.New("Not connected")
 	}
 	log.Printf("Published %s on topic %s\n", data, subj)

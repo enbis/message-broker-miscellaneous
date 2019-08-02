@@ -18,4 +18,10 @@ Like a telephone children's game, this tool connects different application proto
 
 ### gRPC Client
 
-- `go run main.go grpcclient` to interact with gRPCServer, sending protobuffer `models.PingMessage`. The protocol bufer contains `topic` and `payload` that will be needed for the Nats messaging system. 
+- `go run main.go grpcclient` to interact with gRPCServer, sending protobuffer `models.PingMessage`. The protocol bufer contains `topic` and `payload` that will be needed for the Nats messaging system.
+
+### nats subscriber
+
+- first of all `docker-compose up` to launch the Nats service on port 4222
+
+- `go run main.go natssubscriber --topic=<preferred_topic>` to subscribe to the topic preferred. Be careful that the `--topic` match with the topic selected at the http request time, otherwise you won't see the message coming. If no topic is provided it reads the value from the config.yml. 
