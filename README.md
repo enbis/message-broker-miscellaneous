@@ -1,7 +1,7 @@
 # message-broker-miscellaneous
 
 <p align="center">
-    <img src="[Image] https://github.com/enbis/message-broker-miscellaneous/image/enbis_mbm_logo.tif)" alt="Image" width="800" height="600" />
+    <img src="https://github.com/enbis/message-broker-miscellaneous/image/enbis_mbm_logo.png" alt="Image" width="960" height="478" />
 </p>
 
 Like a telephone children's game, this tool connects different application protocols (HTTP request, HTTP/2 protocol buffer) and open source messaging systems (NATS MQTT) and allows transfert data between them. From HTTP request to the MQTT message pubblication, passing through HTTP/2 and NATS. It's also possible to run Client/Server system standalone to test and evaluate the communications individually. Fully developed in GO.   
