@@ -33,7 +33,7 @@ var httpserverCmd = &cobra.Command{
 	Short: "Launch HTTP Server",
 	Long:  `Launch HTTP Server listening for HTTP Client request, and foreward it to the gRPC Server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("httpserver listening on %s\n", viper.GetString("http_port"))
+		fmt.Printf("HTTP Server listening on %s\n", viper.GetString("http_port"))
 
 		http.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
 
@@ -85,20 +85,10 @@ func sendDataTogRPCServer(topic, payload string) {
 		log.Fatalf("Error sending the data to gRPC Server: %s", err)
 	}
 
-	log.Printf("Information %s %s sent to the gRPC Server \n", topic, payload)
+	log.Printf("Topic %s and payload %s sent to the gRPC Server \n", topic, payload)
 
 }
 
 func init() {
 	rootCmd.AddCommand(httpserverCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// httpserverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// httpserverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

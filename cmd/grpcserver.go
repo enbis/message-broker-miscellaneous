@@ -34,7 +34,7 @@ var grpcserverCmd = &cobra.Command{
 	Long:  `Launch gRPC Server listening for gRPC Client request, and foreward it as pub/sub on nats`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		log.Printf("grpcServer on")
+		log.Printf("gRPC Server")
 
 		grpcPort := fmt.Sprintf(":%d", viper.GetInt("grpc_port"))
 		lis, err := net.Listen("tcp", grpcPort)
@@ -60,14 +60,4 @@ var grpcserverCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(grpcserverCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// grpcserverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// grpcserverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

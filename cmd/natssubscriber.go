@@ -56,7 +56,7 @@ var natssubscriberCmd = &cobra.Command{
 		for {
 			select {
 			case msg := <-ch:
-				log.Println("Received: ", string(msg))
+				log.Println("Received message: ", string(msg))
 			}
 		}
 

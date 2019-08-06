@@ -27,3 +27,7 @@ Like a telephone children's game, this tool connects different application proto
 - first of all `docker-compose up` to launch the Nats service on port 4222
 
 - `go run main.go natssubscriber --topic=<preferred_topic>` to subscribe to the topic preferred. Be careful that the `--topic` match with the topic selected at the http request time, otherwise you won't see the message coming. If no topic is provided it reads the value from the config.yml. 
+
+### nats publisher
+
+- `go run main.go natspublisher --topic=<preferred_topic> --payload=<preferred_payload>` useful to test nats messaging system standalone. After launching Nats service and nats subscriber, launch the publisher to interact with the message broker. 

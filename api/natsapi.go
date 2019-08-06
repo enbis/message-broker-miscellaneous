@@ -28,7 +28,7 @@ func GetCurrentTransport() *NatsTransport {
 }
 
 func (transport *NatsTransport) Connect() error {
-	log.Println("Conn", &transport.Conn)
+
 	nc, err := nats.Connect(transport.URL)
 	if err != nil {
 		return err
@@ -56,20 +56,17 @@ func (transport *NatsTransport) Subscribe(subj string) (chan []byte, error) {
 
 	ch = make(chan *nats.Msg, 64)
 	transport.Conn.ChanSubscribe(subj, ch)
-	log.Printf("Subscribed to %s\n", subj)
+	log.Printf("Subscribed to topic %s\n", subj)
 
 	go func() {
-		for {
-			select {
-			case msg := <-ch:
-				if msg == nil {
-					return
-				}
+		select {
+		case msg := <-ch:
+			if msg != nil {
 				c <- msg.Data
-				break
 			}
 		}
 	}()
+
 	subscriptions[subj] = ch
 	return c, nil
 }
@@ -84,10 +81,13 @@ func (transport *NatsTransport) Unsubscribe(subj string) error {
 
 func (transport *NatsTransport) Publish(subj string, data []byte) error {
 	if transport.Conn == nil || transport.Conn.IsClosed() {
-		log.Printf("Not connected")
-		return errors.New("Not connected")
+		err := transport.Connect()
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+			return errors.New("Not connected to Nats")
+		}
 	}
-	log.Printf("Published %s on topic %s\n", data, subj)
+	log.Printf("Nats published message %s on topic %s\n", data, subj)
 	return transport.Conn.Publish(subj, data)
 }
 

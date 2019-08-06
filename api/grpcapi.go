@@ -18,7 +18,7 @@ func NewRedirectServer(nats *NatsTransport) *RedirectServer {
 }
 
 func (redirect *RedirectServer) Send(ctx context.Context, in *models.PingMessage) (*models.Empty, error) {
-	log.Printf("Received %s for topic %s\n", string(in.Payload), in.Topic)
+	log.Printf("Received message %s for topic %s\n", string(in.Payload), in.Topic)
 
 	if redirect.NatsHandler.Conn == nil || redirect.NatsHandler.Conn.IsClosed() {
 		err := redirect.NatsHandler.Connect()

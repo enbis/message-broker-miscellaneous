@@ -27,8 +27,11 @@ import (
 // natspublisherCmd represents the natspublisher command
 var natspublisherCmd = &cobra.Command{
 	Use:   "natspublisher",
-	Short: "",
-	Long:  ``,
+	Short: "This command allows to publish a message to a specific Nats topic",
+	Long: `This command is useful for testing the NATS messaging system standalone.
+	First of all launch the natssubscriber selecting preferred topic, 
+	then launch the natspublisher specifying the message being sure to publish the message
+	on the correct topic. There are two parameters, topic and payload.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("natspublisher called")
 
@@ -43,13 +46,6 @@ var natspublisherCmd = &cobra.Command{
 		}
 
 		nats := api.NewNatsTransport()
-
-		if nats.Conn == nil || nats.Conn.IsClosed() {
-			err = nats.Connect()
-			if err != nil {
-				log.Fatalf("failed to listen: %v", err)
-			}
-		}
 
 		err = nats.Publish(topic, []byte(payload))
 		if err != nil {
