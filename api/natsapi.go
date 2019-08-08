@@ -59,10 +59,12 @@ func (transport *NatsTransport) Subscribe(subj string) (chan []byte, error) {
 	log.Printf("Subscribed to topic %s\n", subj)
 
 	go func() {
-		select {
-		case msg := <-ch:
-			if msg != nil {
-				c <- msg.Data
+		for {
+			select {
+			case msg := <-ch:
+				if msg != nil {
+					c <- msg.Data
+				}
 			}
 		}
 	}()
@@ -87,7 +89,7 @@ func (transport *NatsTransport) Publish(subj string, data []byte) error {
 			return errors.New("Not connected to Nats")
 		}
 	}
-	log.Printf("Nats published message %s on topic %s\n", data, subj)
+	log.Printf("Message %s forwarded to Nats on topic %s\n", data, subj)
 	return transport.Conn.Publish(subj, data)
 }
 
