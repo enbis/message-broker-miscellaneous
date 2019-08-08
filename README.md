@@ -2,7 +2,7 @@
 
 <img align="center" width="900" height="447" src="https://github.com/enbis/message-broker-miscellaneous/blob/master/image/enbis_mbm_logo.png">
 
-Like a telephone children's game, this tool connects different application protocols (HTTP request, HTTP/2 protocol buffer) and open source messaging systems (NATS MQTT) and allows transfert data between them. From HTTP request to the MQTT message pubblication, passing through HTTP/2 and NATS. It's also possible to run Client/Server system standalone to test and evaluate the communications individually. Fully developed in GO.   
+Like a telephone children's game, this tool connects different application protocols (HTTP request, HTTP/2 protocol buffer) and open source messaging systems (NATS MQTT) and allows transfert data between them. From HTTP request to the MQTT message pubblication, passing through HTTP/2 and NATS. It's also possible to run Client/Server system standalone to test and evaluate the communications individually. **Fully developed in GO.**   
 
 ### Generate protobuf
 

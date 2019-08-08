@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	models "github.com/enbis/message-broker-miscellaneous/models/src"
@@ -23,7 +24,7 @@ func (redirect *RedirectServer) Send(ctx context.Context, in *models.PingMessage
 	if redirect.NatsHandler.Conn == nil || redirect.NatsHandler.Conn.IsClosed() {
 		err := redirect.NatsHandler.Connect()
 		if err != nil {
-			log.Fatalf("failed to listen: %v", err)
+			return &models.Empty{}, errors.New("Unable to connect to Nats")
 		}
 	}
 

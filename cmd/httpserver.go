@@ -18,9 +18,11 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
+	datamodels "github.com/enbis/message-broker-miscellaneous/models"
 	models "github.com/enbis/message-broker-miscellaneous/models/src"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -58,6 +60,19 @@ var httpserverCmd = &cobra.Command{
 
 			sendDataTogRPCServer(topic, payload)
 
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			t, err2 := template.ParseFiles("templates/template.html")
+			if err2 != nil {
+				fmt.Println("Unable to load template")
+			}
+
+			resp := datamodels.HttpRequest{
+				Message: payload,
+				Topic:   topic,
+			}
+
+			t.Execute(w, resp)
+
 		})
 
 		http_port := fmt.Sprintf(":%s", viper.GetString("http_port"))
@@ -82,7 +97,7 @@ func sendDataTogRPCServer(topic, payload string) {
 	_, err = c.Send(context.Background(), &models.PingMessage{Topic: topic, Payload: []byte(payload)})
 
 	if err != nil {
-		log.Fatalf("Error sending the data to gRPC Server: %s", err)
+		log.Fatalf("Error returned by gRPC Server: %s", err)
 	}
 
 	log.Printf("Topic %s and payload %s sent to the gRPC Server \n", topic, payload)
