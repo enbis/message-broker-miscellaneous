@@ -6,7 +6,12 @@ Like a telephone children's game, this tool connects different application proto
 
 ### Generate protobuf
 
-- `make generate/go` 
+- `make generate/go`
+
+### Makefile
+
+- `start/all` to launch docker NATS & MQTT, HTTP Server, gRPC Server and NATS Subscription
+- `request/curl` to launch the HTTP request
 
 ## Cobra commands
 

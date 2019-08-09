@@ -2,5 +2,13 @@ version: "3"
 services:
   nats:
     image: nats
+    container_name: nats
     ports:
       - 4222:4222
+  
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001

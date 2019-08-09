@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/enbis/message-broker-miscellaneous/api"
 	"github.com/spf13/cobra"
@@ -51,6 +52,7 @@ var natspublisherCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal("Error publishing on Nats ", err)
 		}
+		time.Sleep(2 * time.Second)
 	},
 }
 

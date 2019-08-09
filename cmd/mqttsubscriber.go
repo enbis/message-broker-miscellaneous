@@ -24,57 +24,48 @@ import (
 	"github.com/spf13/viper"
 )
 
-// natssubscriberCmd represents the natssubscriber command
-var natssubscriberCmd = &cobra.Command{
-	Use:   "natssubscriber",
-	Short: "This command allows to subscribe to a specific Nats topic",
-	Long: `This command allows to subscribe to a specific Nats topic.
-	There is a parameter to specify the Nats topic to subscribe, be careful that match with the topic selected from the http request
+// mqttsubscriberCmd represents the mqttsubscriber command
+var mqttsubscriberCmd = &cobra.Command{
+	Use:   "mqttsubscriber",
+	Short: "This command allows to subscribe to a specific MQTT topic",
+	Long: `This command allows to subscribe to a specific MQTT topic.
+	There is a parameter to specify the MQTT topic to subscribe, be careful that match with the topic selected from the http request
 	otherwise you won't see the message coming.
 	If no topic is provided it reads it from the config.yml.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("natssubscriber called")
+		fmt.Println("mqttsubscriber called")
 
 		topic, err := cmd.Flags().GetString("topic")
 		if err != nil {
 			topic = viper.GetString("topic")
 		}
 
-		nats := api.NewNatsTransport()
-		// mqtt := api.NewMqttTransport()
-		if nats.Conn == nil || nats.Conn.IsClosed() {
-			err := nats.Connect()
+		mqtt := api.NewMqttTransport()
+		if mqtt.Client == nil || !mqtt.Client.IsConnected() {
+			err := mqtt.Connect()
 			if err != nil {
 				log.Fatalf("failed to listen: %v", err)
 			}
 		}
 
-		ch, err := nats.Subscribe(topic)
+		ch, err := mqtt.Subscribe(topic)
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
 
-		for {
-			select {
-			case msg := <-ch:
-				log.Println("Received message: ", string(msg))
-
-				// if mqtt.Client == nil || !mqtt.Client.IsConnected() {
-				// 	err := mqtt.Connect()
-				// 	if err != nil {
-				// 		log.Fatal("Unable to connect to Nats")
-				// 	}
-				// }
-
-				// mqtt.Publish(topic, msg)
-				// log.Println("Forwarded message to MQTT: ", string(msg))
+		go func() {
+			for {
+				select {
+				case msg := <-ch:
+					log.Println("Received message: ", string(msg))
+				}
 			}
-		}
+		}()
 
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(natssubscriberCmd)
-	natssubscriberCmd.Flags().StringP("topic", "t", "", "Preferred Nats topic to subscribe")
+	rootCmd.AddCommand(mqttsubscriberCmd)
+	mqttsubscriberCmd.Flags().StringP("topic", "t", "", "Preferred Nats topic to subscribe")
 }
