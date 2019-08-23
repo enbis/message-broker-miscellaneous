@@ -68,8 +68,16 @@ func (t *MqttTransport) Publish(topic string, data []byte) error {
 	if t.Client == nil {
 		return errors.New("Client MQTT not connected")
 	}
-	if token := t.Client.Publish(topic, 1, false, data); token.Wait() && token.Error() != nil {
-		return errors.New("MQTT publish error")
+
+	if !t.Client.IsConnected() {
+		err := t.Client.Connect()
+		if err != nil {
+			return errors.New(fmt.Sprintf("Error publishing on MQTT ", err))
+		}
+	}
+
+	if token := t.Client.Publish(topic, 0, false, data); token.Wait() && token.Error() != nil {
+		return errors.New(fmt.Sprintf("MQTT publish error %s \n", token.Error().Error()))
 	}
 
 	return nil

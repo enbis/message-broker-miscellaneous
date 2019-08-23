@@ -33,7 +33,6 @@ var mqttsubscriberCmd = &cobra.Command{
 	otherwise you won't see the message coming.
 	If no topic is provided it reads it from the config.yml.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("mqttsubscriber called")
 
 		topic, err := cmd.Flags().GetString("topic")
 		if err != nil {
@@ -53,14 +52,14 @@ var mqttsubscriberCmd = &cobra.Command{
 			log.Fatalf("failed to listen: %v", err)
 		}
 
-		go func() {
-			for {
-				select {
-				case msg := <-ch:
-					log.Println("Received message: ", string(msg))
-				}
+		fmt.Println("MQTT - Subscribed to topic ", topic)
+
+		for {
+			select {
+			case msg := <-ch:
+				log.Println("Received MQTT message: ", string(msg))
 			}
-		}()
+		}
 
 	},
 }

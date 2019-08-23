@@ -57,7 +57,7 @@ var natssubscriberCmd = &cobra.Command{
 		for {
 			select {
 			case msg := <-ch:
-				log.Println("Received message: ", string(msg))
+				log.Println("Received NATS message: ", string(msg))
 
 				// if mqtt.Client == nil || !mqtt.Client.IsConnected() {
 				// 	err := mqtt.Connect()
