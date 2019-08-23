@@ -10,7 +10,7 @@ Like a telephone children's game, this tool connects different application proto
 
 ### Makefile
 
-- `start/all` to launch docker NATS & MQTT, HTTP Server, gRPC Server and NATS Subscription
+- `start/all` to launch docker NATS & MQTT, HTTP Server, gRPC Server, NATS and MQTT Subscription
 - `request/curl` to launch the HTTP request
 
 ## Cobra commands
@@ -35,4 +35,15 @@ Like a telephone children's game, this tool connects different application proto
 
 ### nats publisher
 
-- `go run main.go natspublisher --topic=<preferred_topic> --payload=<preferred_payload>` useful to test nats messaging system standalone. After launching Nats service and nats subscriber, launch the publisher to interact with the message broker. 
+- `go run main.go natspublisher --topic=<preferred_topic> --payload=<preferred_payload>` useful to test nats messaging system standalone. After launching Nats service and nats subscriber, launch the publisher to interact with the message broker.
+
+### mqtt subscriber
+
+- first of all `docker-compose up` to launch the MQTT service on port 1883
+
+- `go run main.go mqttsubscriber --topic=<preferred_topic>` to subscribe to the topic preferred. Be careful that the `--topic` match with the topic selected at the http request time, otherwise you won't see the message coming. If no topic is provided it reads the value from the config.yml. `#` for multiple subscriptions 
+
+### mqtt publisher
+
+- `go run main.go mqttpublisher --topic=<preferred_topic> --payload=<preferred_payload>` useful to test mqtt messaging system standalone. After launching MQTT service and `mqttsubscriber`, launch the publisher to interact with the message broker.
+

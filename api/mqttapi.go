@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	paho "github.com/eclipse/paho.mqtt.golang"
@@ -53,6 +54,8 @@ func (t *MqttTransport) Subscribe(topic string) (chan []byte, error) {
 		fmt.Println(token.Error())
 		return nil, errors.New("Subscribe error")
 	}
+
+	log.Printf("MQTT subscribed to topic %s\n", topic)
 
 	return c, nil
 }

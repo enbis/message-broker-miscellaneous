@@ -56,7 +56,7 @@ func (transport *NatsTransport) Subscribe(subj string) (chan []byte, error) {
 
 	ch = make(chan *nats.Msg, 64)
 	transport.Conn.ChanSubscribe(subj, ch)
-	log.Printf("Subscribed to topic %s\n", subj)
+	log.Printf("NATS subscribed to topic %s\n", subj)
 
 	go func() {
 		for {

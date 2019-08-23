@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/enbis/message-broker-miscellaneous/api"
@@ -51,8 +50,6 @@ var mqttsubscriberCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
-
-		fmt.Println("MQTT - Subscribed to topic ", topic)
 
 		for {
 			select {

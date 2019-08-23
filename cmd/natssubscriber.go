@@ -33,7 +33,6 @@ var natssubscriberCmd = &cobra.Command{
 	otherwise you won't see the message coming.
 	If no topic is provided it reads it from the config.yml.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("natssubscriber called")
 
 		topic, err := cmd.Flags().GetString("topic")
 		if err != nil {
@@ -41,7 +40,7 @@ var natssubscriberCmd = &cobra.Command{
 		}
 
 		nats := api.NewNatsTransport()
-		// mqtt := api.NewMqttTransport()
+		mqtt := api.NewMqttTransport()
 		if nats.Conn == nil || nats.Conn.IsClosed() {
 			err := nats.Connect()
 			if err != nil {
@@ -59,15 +58,18 @@ var natssubscriberCmd = &cobra.Command{
 			case msg := <-ch:
 				log.Println("Received NATS message: ", string(msg))
 
-				// if mqtt.Client == nil || !mqtt.Client.IsConnected() {
-				// 	err := mqtt.Connect()
-				// 	if err != nil {
-				// 		log.Fatal("Unable to connect to Nats")
-				// 	}
-				// }
+				if mqtt.Client == nil || !mqtt.Client.IsConnected() {
+					err := mqtt.Connect()
+					if err != nil {
+						log.Fatal("Unable to connect to MQTT")
+					}
+				}
 
-				// mqtt.Publish(topic, msg)
-				// log.Println("Forwarded message to MQTT: ", string(msg))
+				err = mqtt.Publish(topic, msg)
+				if err != nil {
+					log.Fatal("Error publishing on MQTT ", err)
+				}
+				fmt.Println(fmt.Sprintf("MQTT - Published %s to topic %s", string(msg), topic))
 			}
 		}
 
