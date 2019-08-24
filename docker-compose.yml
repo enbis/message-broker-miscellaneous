@@ -12,3 +12,10 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+  
+  rabbit:
+    image: rabbitmq
+    container_name: rabbit
+    ports:
+      - 15672:15672
+      - 5672:5672
